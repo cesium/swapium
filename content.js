@@ -176,7 +176,10 @@ button.onclick = () => {
   });
   shiftString = shiftString.slice(0,-1)
   navigator.clipboard.writeText(shiftString);
-  alert('Copied the text: ' + shiftString);
+  if (window.confirm('The share code was generated and copied successfully. Click the 'Share' icon in Calendarium and paste the code to proceed.'))
+  {
+    window.open('https://calendario.cesium.pt', '_blank');
+  };
 }
 
 const logo = document.createElement('img');
