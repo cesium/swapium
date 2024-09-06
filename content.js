@@ -174,7 +174,8 @@ button.onclick = () => {
   Object.keys(groupedByCourse).map(name => {
     const shortName = getClosestShortName(name);
     shiftString += (`${shortName}=${groupedByCourse[name]}&`);
-});
+  });
+  shiftString = shiftString.slice(0,-1)
   navigator.clipboard.writeText(shiftString);
   alert('Copied the text: ' + shiftString);
 }
