@@ -1,9 +1,9 @@
 {
   "manifest_version": 2,
-  "name": "Turnos&Tal",
+  "name": "Swapium",
   "version": "1.0",
 
-  "description": "Scrapper para o swap",
+  "description": "Interface entre o Swap e Calendarium",
 
   "icons": {
     "48": "icons/calendarium-light.svg"

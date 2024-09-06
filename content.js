@@ -56,8 +56,7 @@ shortNames = {
   "Visão por Computador e Processamento de Imagem": "VCPI",
   "Administração de Bases de Dados": "ABD",
   "Aprendizagem Profunda": "AProf",
-  "Bases de Dados NoSQL":
-    "short_n  NoSQL",
+  "Bases de Dados NoSQL":"NoSQL",
   "Estruturas Criptográficas": "EC",
   "Interligação de Redes IP": "IRIP",
   "Manutenção e Evolução de Software": "MES",
