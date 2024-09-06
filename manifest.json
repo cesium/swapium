@@ -1,9 +1,9 @@
 {
   "manifest_version": 2,
-  "name": "Swapium",
+  "name": "SWAPIUM",
   "version": "1.0",
 
-  "description": "Interface entre o Swap e Calendarium",
+  "description": "🔄 Connecting SWAP to Calendarium,
 
   "icons": {
     "48": "icons/calendarium-light.svg"
