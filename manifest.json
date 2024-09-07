@@ -2,16 +2,18 @@
   "manifest_version": 2,
   "name": "SWAPIUM",
   "version": "1.0",
-
-  "description": "🔄 Connecting SWAP to Calendarium,
-
+  "description": "🔄 Connecting SWAP to Calendarium",
   "icons": {
-    "48": "icons/calendarium-light.svg"
+    "48": "icons/calendarium-logo-icon.png"
   },
   "content_scripts": [
     {
-      "matches": ["*://swap.di.uminho.pt/*"],
-      "js": ["content.js"]
+      "matches": [
+        "*://swap.di.uminho.pt/*"
+      ],
+      "js": [
+        "content.js"
+      ]
     }
   ]
 }

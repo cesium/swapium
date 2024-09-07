@@ -7,7 +7,7 @@ shortNames = {
   "Análise Matemática para Engenharia": "Análise",
   "Elementos de Probabilidades e Teoria de Números": "EPTN",
   "Laboratórios de Informática II": "LI2",
-  "Lógica": "Lógica",
+  Lógica: "Lógica",
   "Programação Imperativa": "PI",
   "Sistemas de Computação": "SC",
   "Algoritmos e Complexidade": "AlgC",
@@ -56,7 +56,7 @@ shortNames = {
   "Visão por Computador e Processamento de Imagem": "VCPI",
   "Administração de Bases de Dados": "ABD",
   "Aprendizagem Profunda": "AProf",
-  "Bases de Dados NoSQL":"NoSQL",
+  "Bases de Dados NoSQL": "NoSQL",
   "Estruturas Criptográficas": "EC",
   "Interligação de Redes IP": "IRIP",
   "Manutenção e Evolução de Software": "MES",
@@ -76,7 +76,7 @@ shortNames = {
   "Tecnologias de Segurança": "TS",
   "Tópicos de Desenvolvimento de Software": "TDS",
   "Visualização em Tempo Real": "VTR",
-  "Bilinguismo": "Bilinguismo",
+  Bilinguismo: "Bilinguismo",
   "Cidadania Digital": "CD",
   "Democracia Plena, Responsabilidade e Estado de Direito": "DPRED",
   "Direito Laboral": "DL",
@@ -92,14 +92,15 @@ shortNames = {
   "Temas de Direito da Igualdade e Não Discriminação": "TDIND",
   "Tópicos de Astronomia e Cosmologia": "TAC",
   "Projeto de Informática": "ProjInf",
-  "Dissertação": "D"
-}
-
+  Dissertação: "D",
+};
 
 function levenshteinDistance(str1, str2) {
   const len1 = str1.length;
   const len2 = str2.length;
-  const dp = Array(len1 + 1).fill(null).map(() => Array(len2 + 1).fill(null));
+  const dp = Array(len1 + 1)
+    .fill(null)
+    .map(() => Array(len2 + 1).fill(null));
 
   for (let i = 0; i <= len1; i++) dp[i][0] = i;
   for (let j = 0; j <= len2; j++) dp[0][j] = j;
@@ -108,26 +109,31 @@ function levenshteinDistance(str1, str2) {
     for (let j = 1; j <= len2; j++) {
       const cost = str1[i - 1] === str2[j - 1] ? 0 : 1;
       dp[i][j] = Math.min(
-        dp[i - 1][j] + 1,    // Deletion
-        dp[i][j - 1] + 1,    // Insertion
-        dp[i - 1][j - 1] + cost  // Substitution
+        dp[i - 1][j] + 1, // Deletion
+        dp[i][j - 1] + 1, // Insertion
+        dp[i - 1][j - 1] + cost // Substitution
       );
     }
   }
   return dp[len1][len2];
 }
 
-
 function parsePage() {
-  let array = document.getElementsByTagName('tr');
-  let filteredArray = Array.from(array).filter(tr => {
+  let array = document.getElementsByTagName("tr");
+  let filteredArray = Array.from(array).filter((tr) => {
     let children = Array.from(tr.children);
-    return children.some(child => child.tagName.toLowerCase() === 'td');
+    return children.some((child) => child.tagName.toLowerCase() === "td");
   });
-  let arr = (filteredArray.map((x) => {
-    let arr = (Array.from(x.getElementsByTagName('td')))
-    return ({ course: arr[1].textContent.replace('(Teórica)', '').trim().replace('(Teórica', ''), shift: arr[2].textContent.trim() })
-  }));
+  let arr = filteredArray.map((x) => {
+    let arr = Array.from(x.getElementsByTagName("td"));
+    return {
+      course: arr[1].textContent
+        .replace("(Teórica)", "")
+        .trim()
+        .replace("(Teórica", ""),
+      shift: arr[2].textContent.trim(),
+    };
+  });
 
   // Define the Object.groupBy function
   Object.groupBy = function (array, key) {
@@ -138,10 +144,10 @@ function parsePage() {
   };
 
   let groupedByCourse = arr.reduce(function (rv, x) {
-    (rv[x['course']] = rv[x['course']] || []).push(x.shift);
+    (rv[x["course"]] = rv[x["course"]] || []).push(x.shift);
     return rv;
-  }, {})
-  return(groupedByCourse);
+  }, {});
+  return groupedByCourse;
 }
 
 function getClosestShortName(scrapedName) {
@@ -150,42 +156,48 @@ function getClosestShortName(scrapedName) {
 
   // Iterate over the long names and find the one with the smallest distance
   for (const longName in shortNames) {
-      const distance = levenshteinDistance(scrapedName, longName);
-      if (distance < smallestDistance) {
-          smallestDistance = distance;
-          closestName = longName;
-      }
+    const distance = levenshteinDistance(scrapedName, longName);
+    if (distance < smallestDistance) {
+      smallestDistance = distance;
+      closestName = longName;
+    }
   }
 
   // Return the corresponding short name
   return shortNames[closestName];
 }
 
-
-const navbar = document.querySelector('.navbar');
-const button = document.createElement('button')
-button.classList.add('btn-sm');
-button.style.backgroundColor = '#543780';
-button.style.border = 'none';
+const navbar = document.querySelector(".navbar");
+const button = document.createElement("button");
+button.classList.add("btn-sm");
+button.style.backgroundColor = "#543780";
+button.style.border = "none";
 button.onclick = () => {
   groupedByCourse = parsePage();
-  shiftString = ""
-  Object.keys(groupedByCourse).map(name => {
+  shiftString = "";
+  Object.keys(groupedByCourse).map((name) => {
     const shortName = getClosestShortName(name);
-    shiftString += (`${shortName}=${groupedByCourse[name]}&`);
+    shiftString += `${shortName}=${groupedByCourse[name]}&`;
   });
-  shiftString = shiftString.slice(0,-1)
+  shiftString = shiftString.slice(0, -1);
   navigator.clipboard.writeText(shiftString);
-  if (window.confirm('The share code was generated and copied successfully. Click the 'Share' icon in Calendarium and paste the code to proceed.'))
-  {
-    window.open('https://calendario.cesium.pt', '_blank');
-  };
-}
+  if (
+    shiftString !== "" &&
+    window.confirm(
+      "The share code was generated and copied successfully. Click the 'Share' icon in Calendarium and paste the code to proceed."
+    )
+  ) {
+    window.open("https://calendario.cesium.pt", "_blank");
+  } else {
+    alert("Something went wrong. Please make sure you are logged in.");
+  }
+};
 
-const logo = document.createElement('img');
-logo.src = "https://calendario.cesium.di.uminho.pt/favicon-calendarium.ico"
-logo.alt = "Calendarium"
-logo.style.height = "2rem"
+const logo = document.createElement("img");
+logo.src = "https://calendario.cesium.di.uminho.pt/favicon-calendarium.ico";
+logo.alt = "Calendarium";
+logo.title = "Export to Calendarium";
+logo.style.height = "2rem";
 
-navbar.appendChild(button)
-button.appendChild(logo)
+button.appendChild(logo);
+navbar.appendChild(button);
